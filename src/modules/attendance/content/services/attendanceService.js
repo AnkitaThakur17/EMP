@@ -33,7 +33,6 @@ class attendanceService {
 
   async punchIn(requestUser, requestHeader) {
     try {
-
       // get today's date
       const today = await this.DateTimeUtil.getCurrentDate();
 
@@ -70,8 +69,6 @@ class attendanceService {
         "SUCCESS",
         newPunch
       );
-
-      
     } catch (error) {
       this.logger.error("Error in punchIn: ", error);
       return await this.commonHelpers.prepareResponse(
@@ -89,10 +86,9 @@ class attendanceService {
    */
   async punchOut(requestUser, requestHeader) {
     try {
-   
       //check if punchedIn
       const today = await this.DateTimeUtil.getCurrentDate();
-   
+
       const punchRecord = await this.AttendanceSchema.findOne({
         userId: requestUser.user_id,
         punchDate: today,
@@ -111,13 +107,13 @@ class attendanceService {
           "ALREADY_PUNCHED_OUT"
         );
       }
-      
+
       const punchOutTime = this.DateTimeUtil.getLocalCurrentTime();
       punchRecord.punchOutTime = punchOutTime;
 
       const { hours, minutes } = this.commonHelpers.calculateWorkingHours(
         punchRecord.punchInTime,
-        punchOutTime 
+        punchOutTime
       );
       punchRecord.workingHours = `${hours}h ${minutes}m`;
 
@@ -131,10 +127,44 @@ class attendanceService {
         "SUCCESS",
         responseData
       );
-
     } catch (error) {
       this.logger.error("Error in punchIn: ", error);
       return await this.commonHelpers.prepareResponse(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "ERROR",
+        error.message
+      );
+    }
+  }
+  /**
+   * Get attendance records service
+   * @param {*} requestUser
+   * @param {*} requestHeader
+   * @returns
+   */
+  async myAttendance(requestUser, requestHeader) {
+    try {
+      const employeeId = requestUser.user_id;
+
+      const query = { userId: employeeId };
+
+      const selectFields =
+        "userId punchDate punchInTime leavingTime workingHours punctualStatus punchType";
+
+      const record = await this.BaseModel.fetchSingleObj(
+        query,
+        this.AttendanceSchema,
+        selectFields
+      );
+
+      return this.commonHelpers.prepareResponse(
+        StatusCodes.OK,
+        "SUCCESS",
+        record
+      );
+    } catch (error) {
+      this.logger.error("Error in getAttendance: ", error);
+      return this.commonHelpers.prepareResponse(
         StatusCodes.INTERNAL_SERVER_ERROR,
         "ERROR",
         error.message

@@ -15,6 +15,12 @@ class AttendanceController {
     const returnData = await this.attendanceService.punchOut(req.user, req.headers);
     await this.responseHandler.handleServiceResponse(req, res, returnData);
   }
+
+  //Handles getMyAttendance
+  async myAttendance(req, res, next){
+    const returnData = await this.attendanceService.myAttendance(req.user, req.headers);
+    await this.responseHandler.handleServiceResponse(req, res, returnData)
+  }
 }
 
 module.exports = AttendanceController;

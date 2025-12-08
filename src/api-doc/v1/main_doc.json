@@ -63,6 +63,11 @@
             "post":{
                 "$ref":"././attendance/attendanceApiPath.json#/components/punchOut"
             }
+        },
+        "/attendance/myAttendance":{
+            "get":{
+                "$ref":"././attendance/attendanceApiPath.json#/components/myAttendance"
+            }
         }
     },
     "tags": {
