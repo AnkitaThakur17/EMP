@@ -1,0 +1,383 @@
+{
+  "components": {
+    "createEmployee": {
+      "summary": "Create Employee API.",
+      "description": "Admin creates an employee account",
+      "tags": ["Admin"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fullname": {
+                  "type": "sting",
+                  "description": "Enter name.(Min-5, Max-100)",
+                  "example": "Sunil"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Enter email.(Min-5, Max-100)",
+                  "example": "kayod@mailinator.com"
+                },
+                "password": {
+                  "type": "sting",
+                  "description": "Enter password.",
+                  "example": "Kayod@123"
+                },
+                "designation": {
+                  "type": "string",
+                  "description": "Enter your designation",
+                  "example": "developer"
+                },
+                "employeeCode": {
+                  "type": "string",
+                  "description": "Enter employee code",
+                  "example": "B17"
+                },
+                "team": {
+                  "type": "sting",
+                  "description": "Your team name",
+                  "example": "frontend"
+                },
+                "dob": {
+                  "type": "string",
+                  "description": "Enter your dob",
+                  "example": "17/dec/2002"
+                },
+                "subrole": {
+                  "type": "string",
+                  "description": "Any subrole",
+                  "example": "HR"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "When employee created successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "_id": "678667b7dc707392f76c5ff2",
+                      "fullname": "john david",
+                      "email": "kayod@mailinator.com",
+                      "designation": "developer",
+                      "employeeCode": "B17",
+                      "team": "frontend",
+                      "dob": "17/dec/2002",
+                      "subrole": "HR",
+                      "token": "iyeyJ1c2VyX2lkIjoiNjc4NjY3YjdkmM1ZmYyIiwiZGV2aWNlX2lkIjoiMTIzNDU2IiwidXNlcl9yb2xlIjoiZHJpdmVyIiwiaWF0IjoxNzM2OTMxNDE3LCJleHAiOjE4OTQ3MTk0MTd9.4VUCF5Qp9DZXEhiXJORyG-k65FlOYQx-VwlZbvlr16s",
+                      "role": "admin"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "When account already exists",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 112
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "Validation errors.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 105
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid email format."
+                      },
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fields": {
+                            "email": ["Invalid email format."]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "When entered email & password not match.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 111
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account inactive",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 113
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account not found",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 107
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "getEmployees": {
+      "summary": "Fetch all employees",
+      "description": "By using this API, Get the employees",
+      "tags": ["Admin"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "When employees displayed successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "count": "5",
+                    "example": {
+                      "_id": "678667b7dc707392f76c5ff2",
+                      "fullname": "john david",
+                      "email": "kayod@mailinator.com",
+                      "designation": "developer",
+                      "employeeCode": "B17",
+                      "team": "frontend",
+                      "dob": "17/dec/2002",
+                      "subrole": "none",
+                      "token": "iyeyJ1c2VyX2lkIjoiNjc4NjY3YjdkmM1ZmYyIiwiZGV2aWNlX2lkIjoiMTIzNDU2IiwidXNlcl9yb2xlIjoiZHJpdmVyIiwiaWF0IjoxNzM2OTMxNDE3LCJleHAiOjE4OTQ3MTk0MTd9.4VUCF5Qp9DZXEhiXJORyG-k65FlOYQx-VwlZbvlr16s",
+                      "role": "employee"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Only admin allowed",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 114
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "getEmployee": {
+      "summary": "fetch single employee.",
+      "description": "gives single employee details",
+      "tags": ["Admin"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Unique userId of the user"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "When employee fetch successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "_id": "678667b7dc707392f76c5ff2",
+                    "fullname": "john david",
+                    "email": "kayod@mailinator.com",
+                    "designation": "developer",
+                    "employeeCode": "B17",
+                    "team": "frontend",
+                    "dob": "17/dec/2002",
+                    "subrole": "none",
+                    "token": "iyeyJ1c2VyX2lkIjoiNjc4NjY3YjdkmM1ZmYyIiwiZGV2aWNlX2lkIjoiMTIzNDU2IiwidXNlcl9yb2xlIjoiZHJpdmVyIiwiaWF0IjoxNzM2OTMxNDE3LCJleHAiOjE4OTQ3MTk0MTd9.4VUCF5Qp9DZXEhiXJORyG-k65FlOYQx-VwlZbvlr16s",
+                    "role": "employee"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid UserId",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 127
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

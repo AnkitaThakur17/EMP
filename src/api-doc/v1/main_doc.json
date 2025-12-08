@@ -1,0 +1,105 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "in-detail",
+        "description": "<strong>This is an api doc for in-deail API's.</strong>",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://192.168.1.72:3300/",
+            "description": "Local ip server"
+        }
+    ],
+    "security": [
+        {
+            "ApiKeyAuth": []
+        },
+        {
+            "DeviceId": []
+        },
+        {
+            "DeviceType": []
+        },
+        {
+            "DeviceToken": []
+        },
+        {
+            "AccessToken": []
+        }
+    ],
+    "paths": {
+        "/user/login": {
+            "post": {
+                "$ref":"././user/auth_api/authApiPath.json#/components/login"
+            }
+        },
+        "/user/logout": {
+            "post": {
+                "$ref":"././user/auth_api/authApiPath.json#/components/logout"
+            }
+        },
+        "/user/admin/createEmployee": {
+            "post": {
+                "$ref":"././admin/adminApiPath.json#/components/createEmployee"
+            }
+        },
+        "/user/admin/getEmployees": {
+            "get": {
+                "$ref":"././admin/adminApiPath.json#/components/getEmployees"
+            }
+        },
+        "/user/admin/getEmployee/{userId}":{
+            "get":{
+                "$ref":"././admin/adminApiPath.json#/components/getEmployee"
+            }
+        },
+        "/attendance/punchIn":{
+            "post":{
+                  "$ref":"././attendance/attendanceApiPath.json#/components/punchIn"
+            }
+        },
+        "/attendance/punchOut":{
+            "post":{
+                "$ref":"././attendance/attendanceApiPath.json#/components/punchOut"
+            }
+        }
+    },
+    "tags": {
+        "$ref":"././global_common_components.json"
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "api-key",
+                "description": "Example value: NtE]yUS%tF7eqAePNT6|WWlQxhJQNgb8,)M*|y8y59HkAv6nZs"
+            },
+            "DeviceId": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "device-id",
+                "description": "Example value: 12345"
+            },
+            "DeviceType": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "device-type",
+                "description": "Example value: (android, ios, web)"
+            },
+            "DeviceToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "device-token",
+                "description": "Example value: abcxyz"
+            },
+            "AccessToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "access-token",
+                "description": "Example value: Get {token} from Login & Signup API"
+            }
+        }
+    }
+}

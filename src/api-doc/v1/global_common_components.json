@@ -1,0 +1,16 @@
+{
+  "tags": [
+    {
+      "name": "User-Auth",
+      "description": "This is an admin side user auth module."
+    },
+    {
+      "name": "Admin",
+      "description": "This is an admin module."
+    },
+    {
+      "name": "Attendance",
+      "description": "This is an attendance module."
+    }
+  ]
+}

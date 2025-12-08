@@ -1,0 +1,547 @@
+{
+  "components": {
+    "login": {
+      "summary": "User Login API.",
+      "description": "Authenticate user and returns an access token",
+      "tags": ["User- Auth"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "required": ["email", "password"],
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "description": "Enter email.(Min-5, Max-100)",
+                  "example": "kayod@mailinator.com"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Enter password.",
+                  "example": "Kayod@123"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "When user login successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "_id": "678667b7dc707392f76c5ff2",
+                      "fullname": "john david",
+                      "email": "kayod@mailinator.com",
+                      "token": "iyeyJ1c2VyX2lkIjoiNjc4NjY3YjdkmM1ZmYyIiwiZGV2aWNlX2lkIjoiMTIzNDU2IiwidXNlcl9yb2xlIjoiZHJpdmVyIiwiaWF0IjoxNzM2OTMxNDE3LCJleHAiOjE4OTQ3MTk0MTd9.4VUCF5Qp9DZXEhiXJORyG-k65FlOYQx-VwlZbvlr16s",
+                      "role": "admin"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "Validation errors.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 105
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid email format."
+                      },
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fields": {
+                            "email": ["Invalid email format."]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "When entered email & password not match.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 111
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account inactive",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 113
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account not found",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 107
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "logout": {
+      "summary": "User logout API.",
+      "description": "User logout",
+      "tags": ["User- Auth"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "When user logout successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "forgotPassword": {
+      "summary": "Forgot Password API.(customer/driver/store)",
+      "description": "Forgot password api ",
+      "tags": ["User- Auth"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "required": ["userType", "email"],
+              "properties": {
+                "userType": {
+                  "type": "string",
+                  "enum": ["customer", "driver", "store"]
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Enter email.(Min-5, Max-100)",
+                  "example": "kayod@mailinator.com"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "When email sent successfully for forgot password.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "token": "kyJhbGciOiJIUzI1NinR5cCI6IkpXVCJ9.etJ1c2VySWQiOiI2NzhmNWYzMTRjOWQ1ZDAxODI3Y2Q2ZmIiLCJ1c2VyVHlwZSI6ImN1c3RvbWVyIiwidGVtcG9yYXJ5UGFzc3dvcmQiOiIkM322kMTAkVU5lano5OUdpSTdsSXowbHJxb0ZHZVouRjVEdGNHRWhvRnIvdlZJT3RaSkE4eXN2eVdpU3kiLCJpYXQiOjE3Mzc1NTA4NTYsImV4cCI6MTg5NTMzODg1Nn0.EjKixWflGBPj5AvHYmbLCXkEzFUo3qahYDlH6F3brSg"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "Validation errors.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 105
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid email format."
+                      },
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fields": {
+                            "email": ["Invalid email format."]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "When account not found",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 107
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When email sent failed",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 123
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "resetPassword": {
+      "summary": "Reset password API.",
+      "description": "User reset password ",
+      "tags": ["User- Auth"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "userType",
+                "token",
+                "temporaryPassword",
+                "newPassword"
+              ],
+              "properties": {
+                "userType": {
+                  "type": "string",
+                  "enum": ["customer", "driver", "store"]
+                },
+                "token": {
+                  "type": "string",
+                  "description": "Enter valid token."
+                },
+                "temporaryPassword": {
+                  "type": "string",
+                  "description": "Enter temporary password.",
+                  "example": "8SDozWeH"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "description": "Enter password.",
+                  "example": "kayod@123"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "description": "When password is reset successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "Validation errors.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 105
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid email format."
+                      },
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fields": {
+                            "email": ["Invalid email format."]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "description": "When token is invalid",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 104
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When token is expire",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 135
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user is invalid",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 137
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When password is invalid",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 136
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
