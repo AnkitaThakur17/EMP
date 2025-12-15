@@ -36,7 +36,6 @@ const jwtVerifyToken = async (req, res, next) => {
         user_id: decoded.user_id,       
         user_role: decoded.user_role    
     };
-  
     // Check if the user is logged in with the current device ID
     const isValid = await commonServceObj.checkValidUserLogin(req);
     if (!isValid.valid) {

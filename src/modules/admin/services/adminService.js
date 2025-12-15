@@ -183,7 +183,7 @@ class adminService {
           "ONLY_ADMIN_ALLOWED"
         );
       }
-      console.log("REQUEST HEADER INSIDE SERVICE ===>", requestHeader);
+      // console.log("REQUEST HEADER INSIDE SERVICE ===>", requestHeader);
       const { userId } = reqParams;
       const userData = await this.BaseModel.fetchSingleObj(
         { _id: new mongoose.Types.ObjectId(userId) },

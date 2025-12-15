@@ -27,6 +27,7 @@ container.register({
   commonHelpers: asClass(require("~/helpers/commonHelpers")).singleton(),
   FirebaseLib: asClass(require('~/libraries/FirebaseLib')).singleton(),
   BaseModel: asClass(require('~/models/baseModel').default),
+  AttendanceModel: asClass(require("./models/attendanceModel")),
   Email: asClass(require('~/libraries/Email')).singleton(),
   FileUpload: asClass(require('~/libraries/FileUpload')).singleton(),
   StripeLib: asClass(require('~/libraries/StripeLib')).singleton(),

@@ -231,147 +231,147 @@
         },
         "required": true
       },
-          "responses": {
-      "200": {
-        "description": "When employee punch In successfully.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer",
-                  "example": 200
-                },
-                "data": {
-                  "type": "object",
-                  "example": {
-                    "userId": "678667b7dc707392f76c5ff2",
-                    "date": "28/11/2025",
-                    "arrivalTime": "10:30",
-                    "punchIn Type": "WEB",
-                    "leavingTime": "7:30",
-                    "workingHours": "9:00"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "401": {
-        "description": "Invalid Api Key",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer",
-                  "example": 102
-                }
-              }
-            }
-          }
-        }
-      },
-      "400": {
-        "description": "Validation errors.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "oneOf": [
-                {
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 100
-                    },
-                    "errors": {
-                      "type": "array",
-                      "example": [
-                        "device id is missing.",
-                        "device type is missing.",
-                        "device token is missing.",
-                        "api access key is missing."
-                      ]
+      "responses": {
+        "200": {
+          "description": "When employee punch In successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "userId": "678667b7dc707392f76c5ff2",
+                      "date": "28/11/2025",
+                      "arrivalTime": "10:30",
+                      "punchIn Type": "WEB",
+                      "leavingTime": "7:30",
+                      "workingHours": "9:00"
                     }
                   }
-                },
-                {
-                  "description": "When already punchedOut",
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 116
-                    },
-                    "data": {}
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 102
                   }
-                },
-                {
-                  "description": "Validation errors.",
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 105
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid email format."
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {
-                        "fields": {
-                          "email": ["Invalid email format."]
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "When already punchedOut",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 116
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "Validation errors.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 105
+                      },
+                      "message": {
+                        "type": "string",
+                        "example": "Invalid email format."
+                      },
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fields": {
+                            "email": ["Invalid email format."]
+                          }
                         }
                       }
                     }
+                  },
+                  {
+                    "description": "When entered email & password not match.",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 111
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account inactive",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 113
+                      },
+                      "data": {}
+                    }
+                  },
+                  {
+                    "description": "When user account not found",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 107
+                      },
+                      "data": {}
+                    }
                   }
-                },
-                {
-                  "description": "When entered email & password not match.",
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 111
-                    },
-                    "data": {}
-                  }
-                },
-                {
-                  "description": "When user account inactive",
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 113
-                    },
-                    "data": {}
-                  }
-                },
-                {
-                  "description": "When user account not found",
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer",
-                      "example": 107
-                    },
-                    "data": {}
-                  }
-                }
-              ]
+                ]
+              }
             }
           }
         }
       }
-    }
     },
-    "myAttendance":{
+    "myAttendance": {
       "summary": "fetch single employee attendance record.",
       "description": "gives single employee attendance details",
       "tags": ["Attendance"],
@@ -460,6 +460,96 @@
           }
         }
       }
-    }
+    },
+    "allAttendance": {
+      "summary": "fetch all of the employees attendance record.",
+      "description": "gives every employee's attendance details",
+      "tags": ["Attendance"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "When employee attendance record fetch successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "User_id": "678667b7dc707392f76c5ff2",
+                    "fullname": "john david",
+                    "punchDate": "08/12/20225",
+                    "punchTime": "10:30:00",
+                    "leavingTime": "7:30",
+                    "workingHours": "9:00",
+                    "punctualStatus": "On-Time",
+                    "punchType": "WEB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid UserId",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 127
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "description": "When other than admin or HR tries to access API",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 118
+                      },
+                      "data": {}
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }
+}

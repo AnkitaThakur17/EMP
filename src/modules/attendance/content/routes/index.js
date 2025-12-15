@@ -26,10 +26,17 @@ attendance.post("/punchOut",checkApiHeaders, jwtVerifyToken,(req, res, next) =>{
 })
 
 /**
- * Route for punchOut
+ * Route for myAttendance
  */
 attendance.get("/myAttendance",checkApiHeaders, jwtVerifyToken,(req, res, next) =>{
     attendanceController.myAttendance(req, res, next)
+})
+
+/**
+ * Route for allAttendance
+ */
+attendance.get("/allAttendance",checkApiHeaders, jwtVerifyToken,(req, res, next)=>{
+    attendanceController.allAttendance(req, res, next)
 })
 
 export { attendance };

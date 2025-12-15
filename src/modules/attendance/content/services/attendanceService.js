@@ -12,6 +12,7 @@ class attendanceService {
     BaseModel,
     AttendanceSchema,
     UsersSchema,
+    AttendanceModel,
   }) {
     (this.logger = logger),
       (this.DateTimeUtil = DateTimeUtil),
@@ -21,7 +22,8 @@ class attendanceService {
       (this.commonConstants = commonConstants),
       (this.BaseModel = BaseModel),
       (this.AttendanceSchema = AttendanceSchema);
-    this.UsersSchema = UsersSchema;
+      (this.UsersSchema = UsersSchema);
+      (this.AttendanceModel = AttendanceModel)
   }
 
   /**
@@ -101,7 +103,7 @@ class attendanceService {
         );
       }
 
-      if (punchRecord.punchOutTime) {
+      if (punchRecord.leavingTime) {
         return this.commonHelpers.prepareResponse(
           StatusCodes.BAD_REQUEST,
           "ALREADY_PUNCHED_OUT"
@@ -146,22 +148,27 @@ class attendanceService {
     try {
       const employeeId = requestUser.user_id;
 
-      const query = { userId: employeeId };
+      // Fetch all records for this user
+      const searchQuery = { userId: employeeId };
 
       const selectFields =
         "userId punchDate punchInTime leavingTime workingHours punctualStatus punchType";
 
-      const record = await this.BaseModel.fetchSingleObj(
-        query,
+      const records = await this.BaseModel.fetchAll(
         this.AttendanceSchema,
-        selectFields
+        "punchDate",
+        "desc",
+        null,
+        0,
+        searchQuery,
+        selectFields.split(" ")
       );
-
       return this.commonHelpers.prepareResponse(
         StatusCodes.OK,
         "SUCCESS",
-        record
+        records
       );
+
     } catch (error) {
       this.logger.error("Error in getAttendance: ", error);
       return this.commonHelpers.prepareResponse(
@@ -171,6 +178,88 @@ class attendanceService {
       );
     }
   }
+
+  /**
+   * Get all attendance records of employee service
+   * @param {*} requestUser
+   * @param {*} requestHeader
+   * @param {*} reqQuery
+   * @returns
+   */
+async allAttendance(requestUser, reqQuery, requestHeader) {
+  try {
+    const { role, subrole } = requestUser;
+    // console.log("requestUser :", requestUser);
+
+    const isAdmin = role === "admin";
+    const isHR = subrole === "HR";
+
+    if (!isAdmin && !isHR) {
+      return this.commonHelpers.prepareResponse(
+        StatusCodes.BAD_REQUEST,
+        "ONLY_ADMIN_AND_HR_ALLOWED"
+      );
+    }
+
+    // Extract only VALID fields from reqQuery
+    const {
+      fullname,
+      employeeId,
+      team,
+      status,
+      date,
+      startDate,
+      endDate,
+      limit,
+      offset
+    } = reqQuery;
+
+    let filter = {};
+
+    if(fullname) filter.fullname = fullname;
+
+    if (employeeId) filter.userId = this.ObjectId(employeeId);
+
+    if (team) filter.team = team;
+
+    if (status) filter.punctualStatus = status;
+   
+
+    if (date) {
+      filter.punchDate = date;
+    }
+
+    if (startDate && endDate) {
+      filter.punchDate = { $gte: startDate, $lte: endDate };
+    }
+
+    const finalLimit = parseInt(limit) || 20;
+    const finalOffset = parseInt(offset) || 0;
+
+    // Fetch attendance
+    const attendance = await this.AttendanceModel.getAttendanceList(
+      this.AttendanceSchema,
+      filter,
+      finalLimit,
+      finalOffset
+    );
+//  console.log("attendance", attendance)
+
+    return this.commonHelpers.prepareResponse(
+      StatusCodes.OK,
+      "SUCCESS",
+      attendance
+    );
+
+  } catch (error) {
+    this.logger.error("Error in allAttendance", error);
+    return this.commonHelpers.prepareResponse(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      "ERROR",
+      error.message
+    );
+  }
+}
 }
 
 module.exports = attendanceService;

@@ -68,6 +68,11 @@
             "get":{
                 "$ref":"././attendance/attendanceApiPath.json#/components/myAttendance"
             }
+        },
+        "/attendance/allAttendance":{
+            "get":{
+                "$ref":"././attendance/attendanceApiPath.json#/components/allAttendance"
+            }
         }
     },
     "tags": {
