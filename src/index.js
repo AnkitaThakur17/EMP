@@ -15,9 +15,9 @@ import { attendanceRoutes } from "./modules/attendance/routes";
 
 require('dotenv').config();
 
-// process.on("uncaughtException", (err) => {
-//     console.error("🔥 Uncaught Exception:", err);
-// });
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception:", err);
+});
 
 const app = express(),
     APP_PORT = process.env.PORT || process.env.APP_PORT,
@@ -68,6 +68,7 @@ app.use(notFound); //return default error message not found
                 console.log(`Server listening at http://${app.get("host")}:${app.get("port")}`);
             });
         }
+
     } catch (error) {
         console.error('Error connecting to MongoDB:', error.message || error);
         process.exit(1); // Exit the process if the database connection fails
