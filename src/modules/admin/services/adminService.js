@@ -121,7 +121,7 @@ class adminService {
    * @param {*} requestHeader
    * @returns
    */
-  async getEmployees(reqParams, requestHeader) {
+  async getEmployees(reqQuery,  requestHeader) {
     
     try {
       if (requestHeader.user_role !== "admin") {
@@ -130,15 +130,38 @@ class adminService {
           "ONLY_ADMIN_ALLOWED"
         );
       }
+ 
+      let {pageNo, limit, search, teamFilter} = reqQuery
+       pageNo = pageNo ? parseInt(pageNo) : 1;
+      const finalLimit = parseInt(limit) || 10;
+      const finalOffset = (pageNo - 1) * finalLimit;
 
       const filter = { role: "employee" };
+      if(teamFilter){
+        filter.team = teamFilter
+      }
+
+
+      //search in name or email 
+      if(search){
+      const searchValue = search.trim()
+       const searchKey = {"fullname":true, "email":true}
+       const searchCondition = Object.keys(searchKey)
+       .map((item)=>({
+        [item]:{$regex : searchValue, $options: "i"}
+       }));
+      //  console.log(searchCondition)
+       filter.$or = searchCondition
+      //  console.log(filter)
+       }
+
       //fetch all employees
       const employees = await this.BaseModel.fetchAll(
         this.UsersSchema,
         "createdAt",
         "desc",
-        null,
-        0,
+        finalLimit,
+        finalOffset,
         filter,
         [
           "fullname",

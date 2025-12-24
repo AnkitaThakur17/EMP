@@ -208,6 +208,36 @@
       "tags": ["Admin"],
       "consumes": ["application/json"],
       "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "query",
+          "name": "pageNo",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example":"1"
+          },
+          "description": "Enter Page number"
+        },
+        {
+          "in": "query",
+          "name": "teamFilter",
+          "schema": {
+            "type": "string",
+            "enum":["frontend","backend"]
+          },
+          "description": "Enter Team name"
+        },
+          {
+          "in": "query",
+          "name": "search",
+          "schema": {
+            "type": "string",
+            "example": "ankita"
+          },
+          "description": "Enter search name"
+        }    
+      ],
       "responses": {
         "200": {
           "description": "When employees displayed successfully.",

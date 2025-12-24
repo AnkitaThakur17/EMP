@@ -6,9 +6,10 @@ class attendanceModel {
   /**
    * Get Attendance List with Filters, Lookup & Pagination
    */
-  async getAttendanceList(Model, where = {}, limit = 20, offset = 0) {
+  async getAttendanceList(Model, where = {}, limit,  offset) {
     try {
       const pipeline = [
+     
         // Convert string userId to ObjectId
         {
           $addFields: {
@@ -25,7 +26,7 @@ class attendanceModel {
             as: "employee",
           },
         },
-
+        {$match : where},
         // Flatten array
         {
           $addFields: {
@@ -43,12 +44,12 @@ class attendanceModel {
             workingHours: 1,
             punctualStatus: 1,
             punchType: 1,
-            "employee._id": 1,
-            "employee.fullname": 1,
-            "employee.email": 1,
-            "employee.team": 1,
-            "employee.role": 1,
-            "employee.subrole": 1,
+            employeeId: "$employee._id",
+            fullname: "$employee.fullname",
+            email: "$employee.email",
+            team: "$employee.team",
+            role: "$employee.role",
+            subrole: "$employee.subrole"
           },
         },
 
@@ -60,7 +61,7 @@ class attendanceModel {
       return await Model.aggregate(pipeline);
     } catch (err) {
       this.logger.error("getAttendanceList Error:", err);
-      throw err;
+       return err;
     }
   }
 }

@@ -467,6 +467,63 @@
       "tags": ["Attendance"],
       "consumes": ["application/json"],
       "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "query",
+          "name": "pageNo",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example":"1"
+          },
+          "description": "Enter Page number"
+        },
+        {
+          "in": "query",
+          "name": "search",
+          "schema": {
+            "type": "string",
+            "example":"ankita"
+          },
+          "description": "Enter search name"
+        },
+        {
+          "in": "query",
+          "name": "teamFilter",
+          "schema": {
+            "type": "string",
+            "enum":["frontend","backend"]
+          },
+          "description": "Enter Team name"
+        },
+        {
+          "in": "query",
+          "name": "statusFilter",
+          "schema": {
+            "type": "string",
+            "enum":["On-Time", "Late", "Missing"]
+          },
+          "description": "Enter status"
+        },
+          {
+          "in": "query",
+          "name": "startDate",
+          "schema": {
+          "type": "string",
+          "example": "2025-12-09"
+          },
+          "description": "Enter startDate"
+        },
+        {
+          "in": "query",
+          "name": "endDate",
+          "schema": {
+            "type": "string",
+             "example": "2025-12-12"
+          },
+          "description": "Enter endDate"
+        }
+      ],
       "responses": {
         "200": {
           "description": "When employee attendance record fetch successfully.",

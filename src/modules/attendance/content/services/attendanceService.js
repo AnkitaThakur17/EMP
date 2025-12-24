@@ -189,7 +189,6 @@ class attendanceService {
 async allAttendance(requestUser, reqQuery, requestHeader) {
   try {
     const { role, subrole } = requestUser;
-    // console.log("requestUser :", requestUser);
 
     const isAdmin = role === "admin";
     const isHR = subrole === "HR";
@@ -203,45 +202,47 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
 
     // Extract only VALID fields from reqQuery
     const {
-      fullname,
-      employeeId,
-      team,
-      status,
-      date,
       startDate,
       endDate,
-      limit,
-      offset
+      pageNo,
+      search,
+      teamFilter,
+      statusFilter
     } = reqQuery;
 
-    let filter = {};
 
-    if(fullname) filter.fullname = fullname;
+    let filter = { "employee.role": "employee" };
+       //search in name
+      if(search){
+      const searchValue = search.trim()
+       const searchKey = {"employee.fullname":true}
+       const searchCondition = Object.keys(searchKey)
+       .map((item)=>({
+        [item]:{$regex : searchValue, $options: "i"}
+       }));
+      //  console.log(searchCondition)
+      filter['$or'] = searchCondition
+      //  console.log(filter)
+       }
 
-    if (employeeId) filter.userId = this.ObjectId(employeeId);
+    if(teamFilter) filter["employee.team"] = teamFilter;
 
-    if (team) filter.team = team;
-
-    if (status) filter.punctualStatus = status;
+    if(statusFilter) filter["punctualStatus"] = statusFilter;
    
-
-    if (date) {
-      filter.punchDate = date;
-    }
-
     if (startDate && endDate) {
       filter.punchDate = { $gte: startDate, $lte: endDate };
     }
 
-    const finalLimit = parseInt(limit) || 20;
-    const finalOffset = parseInt(offset) || 0;
+    const finalLimit = 10;
+    const finalOffset = (pageNo - 1) * finalLimit;
 
+    // console.log(JSON.stringify(filter))
     // Fetch attendance
     const attendance = await this.AttendanceModel.getAttendanceList(
       this.AttendanceSchema,
       filter,
       finalLimit,
-      finalOffset
+      finalOffset,
     );
 //  console.log("attendance", attendance)
 
