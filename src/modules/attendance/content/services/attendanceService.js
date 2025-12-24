@@ -201,7 +201,7 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
     }
 
     // Extract only VALID fields from reqQuery
-    const {
+    let {
       startDate,
       endDate,
       pageNo,
@@ -210,6 +210,7 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
       statusFilter
     } = reqQuery;
 
+    pageNo = pageNo ? parseInt(pageNo) : 1
 
     let filter = { "employee.role": "employee" };
        //search in name

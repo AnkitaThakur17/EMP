@@ -471,7 +471,7 @@
         {
           "in": "query",
           "name": "pageNo",
-          "required": true,
+          
           "schema": {
             "type": "string",
             "example":"1"
