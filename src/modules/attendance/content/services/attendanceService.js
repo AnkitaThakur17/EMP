@@ -234,7 +234,7 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
       filter.punchDate = { $gte: startDate, $lte: endDate };
     }
 
-    const finalLimit = 10;
+    const finalLimit = 5;
     const finalOffset = (pageNo - 1) * finalLimit;
 
     // console.log(JSON.stringify(filter))
@@ -245,12 +245,20 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
       finalLimit,
       finalOffset,
     );
-//  console.log("attendance", attendance)
+
+    const count = await this.AttendanceModel.getAttendanceList(
+      this.AttendanceSchema,
+      filter,
+      finalLimit,
+      finalOffset,
+      true
+    );
+
 
     return this.commonHelpers.prepareResponse(
       StatusCodes.OK,
       "SUCCESS",
-      attendance
+     { attendance, count:count[0].totalAttendance}
     );
 
   } catch (error) {

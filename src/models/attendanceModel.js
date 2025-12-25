@@ -6,9 +6,9 @@ class attendanceModel {
   /**
    * Get Attendance List with Filters, Lookup & Pagination
    */
-  async getAttendanceList(Model, where = {}, limit,  offset) {
+  async getAttendanceList(Model, where = {}, limit,  offset, getCount = false) {
     try {
-      const pipeline = [
+      const commonPipeline = [
      
         // Convert string userId to ObjectId
         {
@@ -35,7 +35,11 @@ class attendanceModel {
         },
 
         // Project attendance + employee fields
-        {
+ 
+      ];
+      const resultPipleline = [
+        ...commonPipeline,
+          {
           $project: {
             _id: 1,
             punchDate: 1,
@@ -52,13 +56,18 @@ class attendanceModel {
             subrole: "$employee.subrole"
           },
         },
-
         { $sort: { punchDate: -1 } },
         { $skip: offset },
         { $limit: limit },
       ];
 
-      return await Model.aggregate(pipeline);
+      const countPipeline = [...commonPipeline,  { $count: "totalAttendance"} ]
+      if(!getCount){
+        return await Model.aggregate(resultPipleline);
+      }else{
+         return await Model.aggregate(countPipeline);
+      }
+
     } catch (err) {
       this.logger.error("getAttendanceList Error:", err);
        return err;

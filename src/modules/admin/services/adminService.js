@@ -130,7 +130,6 @@ class adminService {
           "ONLY_ADMIN_ALLOWED"
         );
       }
- 
       let {pageNo, limit, search, teamFilter} = reqQuery
        pageNo = pageNo ? parseInt(pageNo) : 1;
       const finalLimit = parseInt(limit) || 10;
