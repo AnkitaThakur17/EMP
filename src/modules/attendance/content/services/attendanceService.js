@@ -221,9 +221,7 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
        .map((item)=>({
         [item]:{$regex : searchValue, $options: "i"}
        }));
-      //  console.log(searchCondition)
       filter['$or'] = searchCondition
-      //  console.log(filter)
        }
 
     if(teamFilter) filter["employee.team"] = teamFilter;
@@ -237,23 +235,20 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
     const finalLimit = 5;
     const finalOffset = (pageNo - 1) * finalLimit;
 
-    // console.log(JSON.stringify(filter))
-    // Fetch attendance
-    const attendance = await this.AttendanceModel.getAttendanceList(
-      this.AttendanceSchema,
-      filter,
-      finalLimit,
-      finalOffset,
-    );
-
-    const count = await this.AttendanceModel.getAttendanceList(
-      this.AttendanceSchema,
-      filter,
-      finalLimit,
-      finalOffset,
-      true
-    );
-
+    const [attendance, count] = await Promise.all([
+      this.AttendanceModel.getAttendanceList(
+            this.AttendanceSchema,
+            filter,
+            finalLimit,
+            finalOffset,
+          ),
+          this.AttendanceModel.getAttendanceList(
+            this.AttendanceSchema,
+            filter,
+            finalLimit,
+            finalOffset,
+            true
+          )])
 
     return this.commonHelpers.prepareResponse(
       StatusCodes.OK,
