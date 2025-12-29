@@ -26,6 +26,7 @@ class attendanceModel {
             as: "employee",
           },
         },
+        // {$unwind: "$employee" },
         {$match : where},
         // Flatten array
         {
@@ -69,6 +70,7 @@ class attendanceModel {
       }
 
     } catch (err) {
+      console.log(err)
       this.logger.error("getAttendanceList Error:", err);
        return err;
     }

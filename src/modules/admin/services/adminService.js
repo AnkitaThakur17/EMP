@@ -132,15 +132,13 @@ class adminService {
       }
       let {pageNo, limit, search, teamFilter} = reqQuery
        pageNo = pageNo ? parseInt(pageNo) : 1;
-      const finalLimit = parseInt(limit) || 10;
+      const finalLimit = parseInt(limit) || 5;
       const finalOffset = (pageNo - 1) * finalLimit;
 
       const filter = { role: "employee" };
       if(teamFilter){
         filter.team = teamFilter
       }
-
-
       //search in name or email 
       if(search){
       const searchValue = search.trim()

@@ -249,11 +249,11 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
             finalOffset,
             true
           )])
-
+    // console.log("attendance", attendance)
     return this.commonHelpers.prepareResponse(
       StatusCodes.OK,
       "SUCCESS",
-     { attendance, count:count[0].totalAttendance}
+     { attendance, count:count[0]?.totalAttendance}
     );
 
   } catch (error) {
