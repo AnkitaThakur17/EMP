@@ -122,7 +122,6 @@ class adminService {
    * @returns
    */
   async getEmployees(reqQuery,  requestHeader) {
-    
     try {
       if (requestHeader.user_role !== "admin") {
         return this.commonHelpers.prepareResponse(

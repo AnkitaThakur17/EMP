@@ -207,12 +207,14 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
       pageNo,
       search,
       teamFilter,
-      statusFilter
+      statusFilter, 
+      userFilter
     } = reqQuery;
-
     pageNo = pageNo ? parseInt(pageNo) : 1
 
     let filter = { "employee.role": "employee" };
+    if(userFilter) filter.userId = userFilter?.trim();
+    
        //search in name
       if(search){
       const searchValue = search.trim()

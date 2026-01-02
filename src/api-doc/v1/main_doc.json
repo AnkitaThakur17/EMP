@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.1.86:3300/",
+            "url": "http://192.168.1.28:3300/",
             "description": "Local ip server"
         }
     ],
