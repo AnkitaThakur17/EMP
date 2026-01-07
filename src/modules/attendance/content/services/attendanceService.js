@@ -111,7 +111,7 @@ class attendanceService {
       }
 
       const punchOutTime = this.DateTimeUtil.getLocalCurrentTime();
-      punchRecord.punchOutTime = punchOutTime;
+      punchRecord.leavingTime = punchOutTime;
 
       const { hours, minutes } = this.commonHelpers.calculateWorkingHours(
         punchRecord.punchInTime,
@@ -163,6 +163,7 @@ class attendanceService {
         searchQuery,
         selectFields.split(" ")
       );
+      // console.log(records);
       return this.commonHelpers.prepareResponse(
         StatusCodes.OK,
         "SUCCESS",
@@ -208,13 +209,13 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
       search,
       teamFilter,
       statusFilter, 
-      userFilter
+      userFilter,
+      isLateList,
     } = reqQuery;
     pageNo = pageNo ? parseInt(pageNo) : 1
 
     let filter = { "employee.role": "employee" };
     if(userFilter) filter.userId = userFilter?.trim();
-    
        //search in name
       if(search){
       const searchValue = search.trim()
@@ -237,6 +238,12 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
     const finalLimit = 5;
     const finalOffset = (pageNo - 1) * finalLimit;
 
+    if(isLateList){     
+        filter.punctualStatus = "Late"
+        const today = new Date().toISOString().split("T")[0];    
+        filter.punchDate = today; 
+    }
+
     const [attendance, count] = await Promise.all([
       this.AttendanceModel.getAttendanceList(
             this.AttendanceSchema,
@@ -250,8 +257,8 @@ async allAttendance(requestUser, reqQuery, requestHeader) {
             finalLimit,
             finalOffset,
             true
-          )])
-    // console.log("attendance", attendance)
+          )
+        ])
     return this.commonHelpers.prepareResponse(
       StatusCodes.OK,
       "SUCCESS",
