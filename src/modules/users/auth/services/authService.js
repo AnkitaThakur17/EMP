@@ -32,7 +32,7 @@ class authService {
       const userData = await this.BaseModel.fetchSingleObj(
         { email: requestData.email, isActive: true },
         this.UsersSchema,
-        "email password role fullname"
+        "email password role fullname subrole"
       );
 
       // If no user found
@@ -61,6 +61,7 @@ class authService {
         userData,
         userData.role,
         userData.fullname,
+        userData.subrole,
       );
 
       // Return success response

@@ -1,3 +1,6 @@
+import { commonServices } from "~/services/commonServices";
+const commonServceObj = new commonServices();
+
 class AdminController {
   constructor({ adminService, responseHandler }) {
     (this.adminService = adminService),
@@ -22,6 +25,13 @@ class AdminController {
   const returnData = await this.adminService.getEmployee(req.params, req.user);
   await this.responseHandler.handleServiceResponse(req, res, returnData)
 }
+
+//Handles update Employee
+async updateEmployee(req, res, next){
+  const returnData = await commonServceObj.updateEmployee(req.user, req.body, req.params)
+  await this.responseHandler.handleServiceResponse(req, res, returnData)
+}
+
 }
 
 module.exports = AdminController;

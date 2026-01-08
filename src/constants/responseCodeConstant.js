@@ -21,8 +21,8 @@ const responseCodeConstant = {
 	"ALREADY_PUNCHED_IN_TODAY": 115,
 	"PUNCH_IN_REQUIRED": 116,
 	"ALREADY_PUNCHED_OUT": 117,
-	"ONLY_ADMIN_AND_HR_ALLOWED": 118
-	
+	"ONLY_ADMIN_AND_HR_ALLOWED": 118,
+	"EMP_CODE_ALREADY_EXIST": 119
 }
 
 export default responseCodeConstant;

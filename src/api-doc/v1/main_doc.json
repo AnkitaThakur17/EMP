@@ -54,6 +54,13 @@
                 "$ref":"././admin/adminApiPath.json#/components/getEmployee"
             }
         },
+
+        "/user/admin/updateEmployee/{userId}":{
+            "put":{
+                "$ref":"././admin/adminApiPath.json#/components/updateEmployee"
+            }
+        },
+        
         "/attendance/punchIn":{
             "post":{
                   "$ref":"././attendance/attendanceApiPath.json#/components/punchIn"

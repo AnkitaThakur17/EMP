@@ -69,6 +69,7 @@ class commonHelpers {
             device_id: userData.deviceId,
             user_role: userData.role, //role from schema
             user_fullname: userData.fullname, //name from schema
+            user_subrole: userData.subrole,
             admin_id: userType === commonConstants.USER_TYPE.ADMIN ? userData._id : userData.adminId
         });
 

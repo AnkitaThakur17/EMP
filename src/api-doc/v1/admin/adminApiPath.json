@@ -215,7 +215,7 @@
           "required": true,
           "schema": {
             "type": "string",
-            "example":"1"
+            "example": "1"
           },
           "description": "Enter Page number"
         },
@@ -224,11 +224,11 @@
           "name": "teamFilter",
           "schema": {
             "type": "string",
-            "enum":["frontend","backend"]
+            "enum": ["frontend", "backend"]
           },
           "description": "Enter Team name"
         },
-          {
+        {
           "in": "query",
           "name": "search",
           "schema": {
@@ -236,7 +236,7 @@
             "example": "ankita"
           },
           "description": "Enter search name"
-        }    
+        }
       ],
       "responses": {
         "200": {
@@ -373,6 +373,183 @@
                   "code": {
                     "type": "integer",
                     "example": 127
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "updateEmployee": {
+      "summary": "Update employee record",
+      "description": "Update the employee's record",
+      "tags": ["Admin"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "Unique userId of the user"
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "required": [],
+              "properties": {
+                "fullname": {
+                  "type": "sting",
+                  "description": "Enter name.(Min-5, Max-100)",
+                  "example": "Sunil"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "Enter email.(Min-5, Max-100)",
+                  "example": "kayod@mailinator.com"
+                },
+                "designation": {
+                  "type": "string",
+                  "description": "Enter your designation",
+                  "example": "developer"
+                },
+                "employeeCode": {
+                  "type": "string",
+                  "description": "Enter employee code",
+                  "example": "B17"
+                },
+                "team": {
+                  "type": "sting",
+                  "description": "Your team name",
+                  "example": "frontend"
+                },
+                "dob": {
+                  "type": "string",
+                  "description": "Enter your dob",
+                  "example": "17/dec/2002"
+                },
+                "subrole": {
+                  "type": "string",
+                  "description": "Any subrole",
+                  "example": "HR"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "When employee record updated successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "type": "object",
+                    "example": {
+                      "data": {
+                        "type": "object",
+                        "example": {
+                          "fullname": "john david",
+                          "email": "kayod@mailinator.com",
+                          "designation": "developer",
+                          "employeeCode": "B17",
+                          "team": "frontend",
+                          "dob": "17/dec/2002",
+                          "subrole": "HR",
+                          "token": "iyeyJ1c2VyX2lkIjoiNjc4NjY3YjdkmM1ZmYyIiwiZGV2aWNlX2lkIjoiMTIzNDU2IiwidXNlcl9yb2xlIjoiZHJpdmVyIiwiaWF0IjoxNzM2OTMxNDE3LCJleHAiOjE4OTQ3MTk0MTd9.4VUCF5Qp9DZXEhiXJORyG-k65FlOYQx-VwlZbvlr16s",
+                          "role": "admin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key or token",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "description": "Invalid Api Key",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 102
+                      }
+                    }
+                  },
+                  {
+                    "description": "Invalid token",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 104
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "A token is required for authentication",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 103
                   }
                 }
               }
