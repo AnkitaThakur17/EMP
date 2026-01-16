@@ -607,6 +607,142 @@
           }
         }
       }
+    },
+    "updateAttendance": {
+      "summary": "Update attendance record",
+      "description": "Update the employee's attendance record",
+      "tags": ["Attendance"],
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "path",
+          "name": "attendanceId",
+          "schema": {
+            "type": "string"
+          },
+          "description": "Unique attendanceId of the record"
+        }
+      ],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "attendanceRemark": {
+                  "type": "string",
+                  "description": "Any remark",
+                  "example": "Early-leave"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "When employee attendance record updated successfully.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "data": {
+                    "User_id": "678667b7dc707392f76c5ff2",
+                    "fullname": "john david",
+                    "punchDate": "08/12/20225",
+                    "punchTime": "10:30:00",
+                    "leavingTime": "6:30",
+                    "workingHours": "8:00",
+                    "punctualStatus": "Early-leave",
+                    "punchType": "WEB"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid Api Key or token",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "description": "Invalid Api Key",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 102
+                      }
+                    }
+                  },
+                  {
+                    "description": "Invalid token",
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 104
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "A token is required for authentication",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 103
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Validation errors.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "properties": {
+                      "code": {
+                        "type": "integer",
+                        "example": 100
+                      },
+                      "errors": {
+                        "type": "array",
+                        "example": [
+                          "device id is missing.",
+                          "device type is missing.",
+                          "device token is missing.",
+                          "api access key is missing."
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

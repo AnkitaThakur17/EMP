@@ -39,4 +39,11 @@ attendance.get("/allAttendance",checkApiHeaders, jwtVerifyToken,(req, res, next)
     attendanceController.allAttendance(req, res, next)
 })
 
+/**
+ * Route for update attendance record
+ */
+attendance.put("/updateAttendance/:attendanceId",checkApiHeaders, jwtVerifyToken, (req, res, next)=>{
+    attendanceController.updateAttendance(req, res, next)
+})
+
 export { attendance };

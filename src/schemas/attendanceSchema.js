@@ -28,6 +28,9 @@ const attendanceSchema = new mongoose.Schema(
       enum: ["WEB", "GPS", "KIOSK"],
       default: "WEB",
     },
+    attendanceRemark:{
+      type: String
+    }
     
   },
   {

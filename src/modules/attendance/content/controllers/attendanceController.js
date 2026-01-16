@@ -1,3 +1,6 @@
+import { commonServices } from "~/services/commonServices";
+const commonServceObj = new commonServices();
+
 class AttendanceController {
      constructor({ attendanceService, responseHandler }) {
     (this.attendanceService = attendanceService),
@@ -27,6 +30,12 @@ class AttendanceController {
     const returnData = await this.attendanceService.allAttendance(req.user, req.query, req.headers);
     await this.responseHandler.handleServiceResponse(req, res, returnData)
   }
+
+  //Handles update Attendance
+  async updateAttendance(req, res, next){
+    const returnData = await commonServceObj.updateAttendance(req.user, req.body, req.params)
+    await this.responseHandler.handleServiceResponse(req, res, returnData)
+}
 }
 
 module.exports = AttendanceController;

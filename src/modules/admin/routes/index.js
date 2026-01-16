@@ -36,6 +36,8 @@ admin.get("/getEmployee/:userId",checkApiHeaders, jwtVerifyToken, (req, res, nex
 /**
  * Route for update employee record
  */
-admin.put("/updateEmployee/:userId", checkApiHeaders, jwtVerifyToken, (req, res, next)=> adminController.updateEmployee(req, res, next) )
+admin.put("/updateEmployee/:userId", checkApiHeaders, jwtVerifyToken, (req, res, next)=> 
+    adminController.updateEmployee(req, res, next))
+
 
 export { admin } 

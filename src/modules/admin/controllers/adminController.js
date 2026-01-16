@@ -31,7 +31,6 @@ async updateEmployee(req, res, next){
   const returnData = await commonServceObj.updateEmployee(req.user, req.body, req.params)
   await this.responseHandler.handleServiceResponse(req, res, returnData)
 }
-
 }
 
 module.exports = AdminController;

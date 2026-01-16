@@ -54,7 +54,8 @@ class attendanceModel {
             email: "$employee.email",
             team: "$employee.team",
             role: "$employee.role",
-            subrole: "$employee.subrole"
+            subrole: "$employee.subrole",
+            attendanceRemark: 1
           },
         },
         { $sort: { punchDate: -1 } },
